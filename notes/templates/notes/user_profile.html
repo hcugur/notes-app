@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+  {% if notes_list %}
+    <div class="notes-list" style="width: 40%; margin: auto;">
+      <div class="row row-cols-1 row-cols-md-2">
+        {% for note in notes_list %}
+            <div class="col py-2 d-flex align-items-stretch">
+              <div class="card note-container" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title note-title">{{ note.note_title }}</h5>
+                  <p class="card-text text-truncate">{{ note.note_body }}</p>
+                  <a href="#" class="card-link">Card link</a>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+      </div>
+    </div>  
+  {% else %}
+    <p>No notes added yet.</p>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,26 @@
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: inherit;
+}
+
+.form-container {
+  width: 30%;
+  height: inherit;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/*
+.form-login {
+  
+}
+*/
