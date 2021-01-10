@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'markdownx',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +58,7 @@ ROOT_URLCONF = 'notes_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates.markdownx',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,7 +121,10 @@ USE_L10N = True
 USE_TZ = True
 
 # Url redirection after login
-LOGIN_REDIRECT_URL='notes:user_prof'
+LOGIN_REDIRECT_URL='notes:home'
+
+# Url redirection after login
+LOGOUT_REDIRECT_URL='notes:login'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -129,3 +135,9 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+
+# django-crispy-forms setting to render django forms with 
+# using bootstrap 4
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+TAGGIT_CASE_INSENSITIVE = True

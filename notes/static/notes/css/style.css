@@ -1,0 +1,72 @@
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: inherit;
+}
+
+.form-container {
+  width: 25%;
+  height: inherit;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.note-container {
+  width: 80%; 
+  margin: auto;
+  padding-top: 3rem;
+}
+
+a.notes-link {
+  color: black;
+  text-decoration: none;
+}
+
+.nav-item {
+  /*max-height: 120px;*/
+  border-bottom-style: groove;
+  border-width: 1px;
+}
+
+.sidebar .nav-link {
+  color: #333;
+}
+
+.sidebar .nav-link.active {
+  background-color:  #99FFFF;
+}
+
+.btn.delete {
+  right: 20px;
+  padding: 0;
+}
+
+.update-note {
+  top: 5px;
+  right: 20px;
+  padding: 0;
+}
+
+.trash {
+  right: 3px;
+  padding: 0;
+  padding-top: 5px;
+}
+
+.untrash {
+  padding: 0;
+}
+
+.icon-section {
+  right: 5px;
+}
+

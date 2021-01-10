@@ -1,3 +1,16 @@
+# extract <QuerySet> iterator elements to a list with their
+# names
+def queryset_ext(qs):
+  result = ''
+  l_qs = len(qs)
+  for i in range(l_qs):
+    if i != l_qs - 1:
+      result += qs[i] + ','
+    else:
+      result += qs[i]
+  return result
+
+
 # returns the list of pages from paginator for rendering
 # in template
 def pages_list(paginator, page_number):
@@ -17,4 +30,10 @@ def max_pag_size(current_page, size):
   anchor = int((int(current_page) - 1) / size)
   for i in range(size):
     result.append((anchor * size) + i + 1)
+  return result
+
+# returns first n elements of a text as a new text
+def text_splitter(text, n):
+  first_n_words = text.split()[:n]
+  result = ' '.join(first_n_words)
   return result
