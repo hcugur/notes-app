@@ -1,0 +1,372 @@
+{% load static%}
+{% if note_presented %}
+  <nav id="sidebarListMenu" class="col-md-6 col-lg-4 border-right d-md-block bg-light sidebar collapse">
+{% else %}
+  <nav id="sidebarListMenu" class="col-md-6 col-lg-4 border-right bg-light sidebar">
+{% endif %}
+  <div class="note-sidebar sidebar-sticky container overflow-auto">
+    <ul id="note-list" class="nav flex-column notes-section">
+      <li class="nav-item sticky-top bg-light pt-3">
+        <form action="{% url 'notes:search_feature' %}" method="POST" class="search-bar d-flex">
+          {% csrf_token %}
+          <div class="input-group mb-2">
+            <input type="search" name="search-bar" class="form-control" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit" id="search-button">
+                <img src="{% static 'assets/search.svg' %}" width="15" height="15" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button id="dLabel" class="btn sidebarMenu-toggle d-lg-none p-0 ml-3" type="button" 
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" 
+              focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" 
+              stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel">
+              <li class="mb-2">
+                <a href="/profile/notes/all/" class="text-dark pl-3 pt-1">
+                  <img src="{% static 'assets/sticky-fill-dark.svg' %}" width="20" height="20" alt="" style="margin-right: 0.5rem;">
+                  Notes
+                </a>
+              </li>
+              <li class="mb-2">
+                <a href="/profile/notes/trash/" class="text-dark pl-3 pt-1">
+                  <img src="{% static 'assets/trash-fill-dark.svg' %}" width="20" height="20" alt="" style="margin-right: 0.5rem;">
+                  Trash
+                </a>
+              </li>
+              {% if tags_list %}
+                {% for tag in tags_list %}
+                  <li class="mb-2">
+                    <a href="/profile/notes/{{ tag.name }}/" class="text-dark pl-3 pt-1">
+                      <img src="{% static 'assets/hash-dark.svg' %}" width="20" height="20" alt="" style="margin-right: 0.5rem;">
+                      {{ tag.name }}
+                    </a>  
+                  </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </div>
+        </form>
+        <a class="btn btn-block btn-sm mb-3 add-new-note d-flex justify-content-center align-items-center" href="/add-note/" role="button">
+          <img src="{% static 'assets/plus.svg' %}" width="25" height="25" alt="">
+          Add Note
+        </a>
+      </li>
+      {% if notes_list %}
+        {% if tag_name == "trash" %}
+          {% for note in notes_list %}
+            {% if note_number == note.id %}
+              <li class="nav-item position-relative">
+                <div class="card">
+                  <div class="dropdown drop-three position-absolute">
+                    <a class="btn zindex-dropdown three-dots" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="{% static 'assets/three-dots-vertical.svg' %}" width="15" height="15" alt="">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                      <li>
+                        <div class="btn-group d-flex justify-content-center">
+                          <a href="/untrash/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/arrow-clockwise.svg' %}" width="15" height="15" alt="">
+                          </a>
+                          <a href="/delete/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/trash.svg' %}" width="15" height="15" alt="">
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body" style="transform: rotate(0);">
+                    <h5 class="card-title">{{ note.note_title }}</h5>
+                    <div class="card-badge">
+                      {% if note.nt_tags %}
+                        {% for tg in note.nt_tags %}
+                          <span class="badge badge-info card-badge-span p-1">{{ tg }}</span>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <p class="card-text">{{ note.summary }}</p>
+                    <a href="/profile/notes/{{ tag_name }}/{{ note.id }}" class="stretched-link note-link nav-link active">
+                      <span class="sr-only">(current)</span>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            {% else %}
+              <li class="nav-item position-relative">
+                <div class="card">
+                  <div class="dropdown drop-three position-absolute">
+                    <a class="btn zindex-dropdown three-dots" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="{% static 'assets/three-dots-vertical.svg' %}" width="15" height="15" alt="">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                      <li>
+                        <div class="btn-group d-flex justify-content-center">
+                          <a href="/untrash/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/arrow-clockwise.svg' %}" width="15" height="15" alt="">
+                          </a>
+                          <a href="/delete/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/trash.svg' %}" width="15" height="15" alt="">
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body" style="transform: rotate(0);">
+                    <h5 class="card-title">{{ note.note_title }}</h5>
+                    <div class="card-badge">
+                      {% if note.nt_tags %}
+                        {% for tg in note.nt_tags %}
+                          <span class="badge badge-info card-badge-span p-1">{{ tg }}</span>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <p class="card-text">{{ note.summary }}</p>
+                    <a href="/profile/notes/{{ tag_name }}/{{ note.id }}" class="stretched-link note-link nav-link"></a>
+                  </div>
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        {% elif tag_name == "all" %}
+          {% for note in notes_list %}
+            {% if note_number == note.id %}
+              <li class="nav-item overflow-hidden">
+                <div class="card">
+                  <div class="dropdown drop-three position-absolute">
+                    <a class="btn zindex-dropdown three-dots" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="{% static 'assets/three-dots-vertical.svg' %}" width="15" height="15" alt="">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                      <li>
+                        <div class="btn-group d-flex justify-content-center">
+                          <a href="/update-note/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/pencil-square.svg' %}" width="15" height="15" alt="">
+                          </a>
+                          <a href="/trash/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/trash.svg' %}" width="15" height="15" alt="">
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body" style="transform: rotate(0);">
+                    <h5 class="card-title">{{ note.note_title }}</h5>
+                    <div class="card-badge">
+                      {% if note.nt_tags %}
+                        {% for tg in note.nt_tags %}
+                          <span class="badge badge-info card-badge-span p-1">{{ tg }}</span>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <p class="card-text">{{ note.summary }}</p>
+                    <a href="/profile/notes/{{ tag_name }}/{{ note.id }}" class="stretched-link note-link nav-link active">
+                      <span class="sr-only">(current)</span>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            {% else %}
+              <li class="nav-item overflow-hidden">
+                <div class="card">
+                  <div class="dropdown drop-three position-absolute">
+                    <a class="btn zindex-dropdown three-dots" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="{% static 'assets/three-dots-vertical.svg' %}" width="15" height="15" alt="">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                      <li>
+                        <div class="btn-group d-flex justify-content-center">
+                          <a href="/update-note/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/pencil-square.svg' %}" width="15" height="15" alt="">
+                          </a>
+                          <a href="/trash/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/trash.svg' %}" width="15" height="15" alt="">
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body" style="transform: rotate(0);">
+                    <h5 class="card-title">{{ note.note_title }}</h5>
+                    <div class="card-badge">
+                      {% if note.nt_tags %}
+                        {% for tg in note.nt_tags %}
+                          <span class="badge badge-info card-badge-span p-1">{{ tg }}</span>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <p class="card-text">{{ note.summary }}</p>
+                    <a href="/profile/notes/{{ tag_name }}/{{ note.id }}" class="stretched-link note-link"></a>
+                  </div>
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        {% elif tag_name == "search_res" %}
+          {% for note in notes_list %}
+            {% if note_number == note.id %}
+              <li class="nav-item overflow-hidden">
+                <div class="card">
+                  <div class="dropdown drop-three position-absolute">
+                    <a class="btn zindex-dropdown three-dots" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="{% static 'assets/three-dots-vertical.svg' %}" width="15" height="15" alt="">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                      <li>
+                        <div class="btn-group d-flex justify-content-center">
+                          <a href="/update-note/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/pencil-square.svg' %}" width="15" height="15" alt="">
+                          </a>
+                          <a href="/trash/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/trash.svg' %}" width="15" height="15" alt="">
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body" style="transform: rotate(0);">
+                    <h5 class="card-title">{{ note.note_title }}</h5>
+                    <div class="card-badge">
+                      {% if note.nt_tags %}
+                        {% for tg in note.nt_tags %}
+                          <span class="badge badge-info card-badge-span p-1">{{ tg }}</span>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <p class="card-text">{{ note.summary }}</p>
+                    <a href="/profile/notes/{{ tag_name }}/{{ search_str }}/{{ note.id }}" class="stretched-link note-link nav-link active">
+                      <span class="sr-only">(current)</span>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            {% else %}
+              <li class="nav-item overflow-hidden">
+                <div class="card">
+                  <div class="dropdown drop-three position-absolute">
+                    <a class="btn zindex-dropdown three-dots" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="{% static 'assets/three-dots-vertical.svg' %}" width="15" height="15" alt="">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                      <li>
+                        <div class="btn-group d-flex justify-content-center">
+                          <a href="/update-note/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/pencil-square.svg' %}" width="15" height="15" alt="">
+                          </a>
+                          <a href="/trash/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/trash.svg' %}" width="15" height="15" alt="">
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body" style="transform: rotate(0);">
+                    <h5 class="card-title">{{ note.note_title }}</h5>
+                    <div class="card-badge">
+                      {% if note.nt_tags %}
+                        {% for tg in note.nt_tags %}
+                          <span class="badge badge-info card-badge-span p-1">{{ tg }}</span>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <p class="card-text">{{ note.summary }}</p>
+                    <a href="/profile/notes/{{ tag_name }}/{{ search_str }}/{{ note.id }}" class="stretched-link note-link nav-link"></a>
+                  </div>
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% for note in notes_list %}
+            {% if note_number == note.id %}
+              <li class="nav-item overflow-hidden">
+                <div class="card">
+                  <div class="dropdown drop-three position-absolute">
+                    <a class="btn zindex-dropdown three-dots" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="{% static 'assets/three-dots-vertical.svg' %}" width="15" height="15" alt="">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                      <li>
+                        <div class="btn-group d-flex justify-content-center">
+                          <a href="/update-note/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/pencil-square.svg' %}" width="15" height="15" alt="">
+                          </a>
+                          <a href="/trash/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/trash.svg' %}" width="15" height="15" alt="">
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body" style="transform: rotate(0);">
+                    <h5 class="card-title">{{ note.note_title }}</h5>
+                    <div class="card-badge">
+                      {% if note.nt_tags %}
+                        {% for tg in note.nt_tags %}
+                          <span class="badge badge-info card-badge-span p-1">{{ tg }}</span>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <p class="card-text">{{ note.summary }}</p>
+                    <a href="/profile/notes/{{ tag_name }}/{{ note.id }}" class="stretched-link note-link nav-link active">
+                      <span class="sr-only">(current)</span>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            {% else %}
+              <li class="nav-item overflow-hidden">
+                <div class="card">
+                  <div class="dropdown drop-three position-absolute">
+                    <a class="btn zindex-dropdown three-dots" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="{% static 'assets/three-dots-vertical.svg' %}" width="15" height="15" alt="">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                      <li>
+                        <div class="btn-group d-flex justify-content-center">
+                          <a href="/update-note/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/pencil-square.svg' %}" width="15" height="15" alt="">
+                          </a>
+                          <a href="/trash/{{ note.id }}" style="text-align:center;" class="btn btn-link operationsButtons">
+                            <img src="{% static 'assets/trash.svg' %}" width="15" height="15" alt="">
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body" style="transform: rotate(0);">
+                    <h5 class="card-title">{{ note.note_title }}</h5>
+                    <div class="card-badge">
+                      {% if note.nt_tags %}
+                        {% for tg in note.nt_tags %}
+                          <span class="badge badge-info card-badge-span p-1">{{ tg }}</span>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <p class="card-text">{{ note.summary }}</p>
+                    <a href="/profile/notes/{{ tag_name }}/{{ note.id }}" class="stretched-link note-link"></a>
+                  </div>
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}    
+        {% endif %}
+      {% else %}
+        {% if search_result_info %}
+          {% if search_result_info == 'failure' %}
+            <p>No results found!</p>
+          {% endif %}
+        {% else %}
+          {% if tag_name == "trash" %}
+            <p>Bin is empty!</p>
+          {% else %}
+            <p>There are no notes yet!</p>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </ul>
+  </div>
+</nav>

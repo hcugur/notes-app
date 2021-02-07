@@ -16,40 +16,40 @@
     <title>Notes Application</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #3655B3;">
+    <nav class="navbar navbar-expand-lg navbar-dark d-flex justify-content-between" style="background-color: #3655B3;">
       <a class="navbar-brand" href="/">
         <img src="{% static 'assets/journal-text.svg' %}" width="30" height="30" alt="">
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto"></ul>
-        {% if user.is_authenticated %}
-          <span class="navbar-text">
-            {{ user.username }}
-          </span>
-          <div class="dropdown" style="margin-right: 1rem;">
-            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="{% static 'assets/person-square.svg' %}" width="30" height="30" alt="">
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Profile Settings</a></li>
-              <li><div class="dropdown-divider"></div></li>
-              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+      
+      {% if user.is_authenticated %}
+        <div class="dropdown">
+          <button id="dProfile" class="btn p-0 ml-3" type="button" 
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right zindex-fixed" aria-labelledby="dProfile">
+              <li class="pl-3 pt-1">{{ user.username }}</li>
+              <li class="dropdown-divider"></li>
+              <li>
+                <a href="/logout" class="text-dark pl-3 pt-1">
+                  Logout
+                </a>
+              </li>
             </ul>
-          </div>
-        {% else %}
-          <a href="/login" class="btn btn-success my-2 my-sm-0" role="button" aria-disabled="true">Login</a>
-        {% endif %}
-      </div>
+        </div>          
+      {% else %}
+        <div>
+          <a href="/login" class="btn btn-outline-light my-2 my-sm-0" role="button" aria-disabled="true">Login</a>
+          <a href="/signup" class="btn btn-success my-2 my-sm-0" role="button" aria-disabled="true">Sign Up</a>
+        </div>
+      {% endif %}
     </nav>
     {% block content %}
     {% endblock %}
     <script>
       $("#post-form").submit(function(e){
           e.preventDefault();
-          });</script>
+      });
+    </script>
   </body>
 </html>

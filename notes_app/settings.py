@@ -123,6 +123,8 @@ USE_TZ = True
 # Url redirection after login
 LOGIN_REDIRECT_URL='notes:home'
 
+LOGIN_URL = 'notes:login'
+
 # Url redirection after login
 LOGOUT_REDIRECT_URL='notes:login'
 

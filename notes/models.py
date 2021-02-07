@@ -8,7 +8,7 @@ from taggit.managers import TaggableManager
 # Create your models here.
 
 class User(AbstractUser):
-  pass 
+  pass
 
 class Note(models.Model):
   note_title = models.CharField(max_length=200)

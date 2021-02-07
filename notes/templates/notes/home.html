@@ -1,5 +1,21 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-  <a class="notes-link" href="{{ request.path }}profile/notes/all/" aria-label="Notes-link">Notes Page</a>
+  <div class="landing">
+    <div class="container pt-3">
+      <div class="row justify-content-md-center">
+        <div class="lead col justify-content-center">
+          <img class="rounded mx-auto d-block mb-3" src="{% static 'assets/journal-text.svg' %}" width="150" height="150" alt="">
+          <h2 class="text-center">
+            A Simple Note Taking Application
+          </h2>
+          {% if user.is_authenticated %}
+            <a class="d-flex justify-content-center" href="/profile/notes/all">
+              Go to Notes Page
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  <div>
 {% endblock %}

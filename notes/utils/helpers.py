@@ -1,3 +1,5 @@
+#from .models import Note
+
 # extract <QuerySet> iterator elements to a list with their
 # names
 def queryset_ext(qs):
@@ -36,4 +38,19 @@ def max_pag_size(current_page, size):
 def text_splitter(text, n):
   first_n_words = text.split()[:n]
   result = ' '.join(first_n_words)
+  return result
+
+# return extracted tag from request url
+'''
+  "notes" is always in the url so indexing notes and
+  taking next element in url will gives us target tag
+  from URL
+  example:  from "/profile/notes/lorems/1"
+            to "notes/lorems/1"
+            to "lorems"
+'''
+def tag_extractor(string):
+  index = string.rindex('notes')
+  result = string[index:]
+  result = result.split('/')[1]
   return result

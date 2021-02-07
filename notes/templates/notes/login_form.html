@@ -1,29 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
   {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      Your username and password didn't match. Please try again.  
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
   {% endif %}
 
   {% if next %}
     {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.   
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     {% else %}
-      <p>Please login to see this page.</p>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Please login to see this page.   
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     {% endif %}
   {% endif %}
-  <div class="form-container">
-    <form class="form-login" method="post" action="{% url 'notes:login' %}">
-      {% csrf_token %}
-      <div class="form-group">
-        <input type="text" class="form-control" id="username" placeholder="username" name="username">
-      </div>
-      <div class="form-group">
-        <input type="password" class="form-control" id="password" placeholder="password" name="password">
-      </div>
-      
-      <button type="submit" class="btn btn-primary btn-block">Submit</button>
-      <input type="hidden" name="next" value="{{ next }}">
-    </form>
+  {% load static %}
+  <div class="form-container container h-100 col-md-6 col-lg-4  m-auto container d-flex flex-column 
+  justify-content-center">
+    <div class="row mx-auto mb-4">
+      <img src="{% static 'assets/journal-text.svg' %}" width="50" height="50" alt="">
+    </div>
+    <div class="row">
+      <form class="form-login col" method="post" action="{% url 'notes:login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="text" class="form-control" id="username" placeholder="username" name="username">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" id="password" placeholder="password" name="password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        <input type="hidden" name="next" value="{{ next }}">
+      </form>
+    </div>
   </div>
 {% endblock %}

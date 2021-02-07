@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+  {% load static %}
+  {% load crispy_forms_tags %}
+  <script src="{% static 'notes/js/scrollAdjuster.js' %}"></script>
+  <div class="main-container row">
+    <nav id="sidebarMenu" class="main-sidebar col-lg-2 d-lg-block bg-dark sidebar collapse">
+      <div class="tags-sidebar sidebar-sticky overflow-auto">
+        <ul class="nav flex-column tags-section">
+          {% if tag_name == "all" %}
+            <li class="nav-item">
+              <a href="/profile/notes/all/" class="nav-link active">
+                <img src="{% static 'assets/sticky-fill.svg' %}" width="20" height="20" alt="" style="margin-right: 0.5rem;">
+                Notes
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a href="/profile/notes/all/" class="nav-link">
+                <img src="{% static 'assets/sticky-fill.svg' %}" width="20" height="20" alt="" style="margin-right: 0.5rem;">
+                Notes
+              </a>
+            </li>
+          {% endif %}
+          {% if tag_name == "trash" %}
+            <li class="nav-item">
+              <a href="/profile/notes/trash/" class="nav-link active">
+                <img src="{% static 'assets/trash-fill.svg' %}" width="20" height="20" alt="" style="margin-right: 0.5rem;">
+                Trash
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a href="/profile/notes/trash/" class="nav-link">
+                <img src="{% static 'assets/trash-fill.svg' %}" width="20" height="20" alt="" style="margin-right: 0.5rem;">
+                Trash
+              </a>
+            </li>
+          {% endif %}
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Tags</span>
+          </h6>
+          {% if tags_list %}
+            {% for tag in tags_list %}
+              {% if tag.name == tag_name %}
+                <li class="nav-item">
+                  <a href="/profile/notes/{{ tag_name }}/" class="nav-link d-flex justify-content-start active">
+                    <img src="{% static 'assets/hash.svg' %}" width="20" height="20" alt="" style="margin-right: 0.5rem;">
+                    <div class="tag-sidebar">{{ tag.name }}</div>
+                    <span class="sr-only">(current)</span>
+                  </a>  
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  <a href="/profile/notes/{{ tag.name }}/" class="nav-link d-flex justify-content-start">
+                    <img src="{% static 'assets/hash.svg' %}" width="20" height="20" alt="" style="margin-right: 0.5rem;">
+                    <div class="tag-sidebar">{{ tag.name }}</div>
+                  </a>  
+                </li>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    {% include "notes/notes_list.html" %}
+    {% if messages %}
+      <div class="messages mx-auto">
+        {% for message in messages %}
+          {% if message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% elif message.tags == "error" %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>  
+          {% else %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div> 
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}   
+    {% include "notes/note_detail.html" %}
+  </div>
+{% endblock %}

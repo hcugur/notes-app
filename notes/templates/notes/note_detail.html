@@ -1,0 +1,81 @@
+{% load static %}
+{% if note_presented %}
+  <div class="border rounded bg-light col-md-6 col-lg-6 mx-auto col-lg-5 px-md-4 py-3">
+    <a class="notes-link mb-3 mx-3" href="/profile/notes/{{ tag_name }}/" role="button" aria-label="Notes-link">
+      <img src="{% static 'assets/arrow-left.svg' %}" width="25" height="25" alt="">Back
+    </a>
+    {% if tag_name != 'trash' %}
+      {% if notes_list %}
+        {% for note in notes_list %}
+          {% if note_number == note.id %}
+              <div class="note-content mt-3 mx-3">
+                <div class="note-title">
+                  <h3>{{ note.note_title }}</h3>
+                </div>
+                <div class="tags">
+                  {% if note_tags %}
+                    {% for tg in note_tags %}
+                      <span class="badge badge-info p-1">{{ tg }}</span>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+                <div class="note-body">
+                  <p>
+                    {% autoescape off %}
+                      {{ note_presented }}
+                    {% endautoescape %}
+                  </p>
+                </div>
+              </div>
+              <div class="note-edit-delete d-flex justify-content-center">
+                <a class="btn btn-primary mr-3 edit-note position-relative" href="/update-note/{{ note.id }}" role="button">
+                  Edit
+                </a>
+                <a class="btn btn-danger send-trash position-relative" href="/trash/{{ note.id }}" role="button">
+                  Remove
+                </a>
+              </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% else %}
+      {% if notes_list %}
+        {% for note in notes_list %}
+          {% if note_number == note.id %}
+              <div class="note-content mt-3 mx-3">
+                <div class="note-title">
+                  <h3>{{ note.note_title }}</h3>
+                </div>
+                <div class="tags">
+                  {% if note_tags %}
+                    {% for tg in note_tags %}
+                      <span class="badge badge-info p-1">{{ tg }}</span>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+                <div class="note-body">
+                  <p>
+                    {% autoescape off %}
+                      {{ note_presented }}
+                    {% endautoescape %}
+                  </p>
+                </div>
+              </div>
+              <div class="note-edit-delete d-flex justify-content-center">
+                <a class="btn btn-primary mr-3 edit-note position-relative" href="/untrash/{{ note.id }}" role="button">
+                  Untrash
+                </a>
+                <a class="btn btn-danger send-trash position-relative" href="/delete/{{ note.id }}" role="button">
+                  Delete
+                </a>
+              </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endif %}
+  </div>
+{% else %}
+  <div class="border rounded bg-light d-none col-md-6 col-lg-6 mx-auto col-lg-5 px-md-4 py-3">
+    
+  </div>
+{% endif %}

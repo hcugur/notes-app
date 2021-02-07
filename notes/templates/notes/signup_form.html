@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+  {% load static %}
+  {% load crispy_forms_tags %}
+  <div class="form-container container h-100 col-md-6 col-lg-4  m-auto container d-flex flex-column 
+  justify-content-center">
+    <div class="row">
+      <form class="form-signup col" method="post" action="{% url 'notes:signup' %}">
+        {% csrf_token %}
+        {% for field in form %}
+            {{ field|as_crispy_field }} </br>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+        <input type="hidden" name="next" value="{{ next }}">
+      </form>
+    </div>
+  </div>
+{% endblock %}

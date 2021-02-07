@@ -1,23 +1,30 @@
+html {
+  height: 100vh; 
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  height: inherit;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+main {
+  height: min-content;  
+}
+
+.card {
+  color: #343a40;
+}
+
 .card-text {
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-html {
-  height: 100%;
-}
-
-body {
-  height: inherit;
-}
-
-.form-container {
-  width: 25%;
-  height: inherit;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.note-sidebar, .tags-sidebar {
+  height: 92vh; 
 }
 
 .note-container {
@@ -31,32 +38,33 @@ a.notes-link {
   text-decoration: none;
 }
 
-.nav-item {
-  /*max-height: 120px;*/
-  border-bottom-style: groove;
-  border-width: 1px;
-}
-
-.sidebar .nav-link {
-  color: #333;
+.main-sidebar .nav-link {
+  color: white;
 }
 
 .sidebar .nav-link.active {
-  background-color:  #99FFFF;
+  background-color:  rgb(95, 93, 93);
+}
+
+.sidebar-heading {
+  text-transform: uppercase;
 }
 
 .btn.delete {
+  z-index: 1;
   right: 20px;
   padding: 0;
 }
 
 .update-note {
+  z-index: 1;
   top: 5px;
   right: 20px;
   padding: 0;
 }
 
 .trash {
+  z-index: 1;
   right: 3px;
   padding: 0;
   padding-top: 5px;
@@ -64,9 +72,54 @@ a.notes-link {
 
 .untrash {
   padding: 0;
+  z-index: 1;
 }
 
 .icon-section {
   right: 5px;
 }
 
+.main-sidebar {
+  padding-right: 0;
+}
+
+.tag-sidebar {
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  width: 120px; 
+  white-space: nowrap;
+}
+
+.card-badge-span {
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  max-width: 120px; 
+  white-space: nowrap;
+}
+
+.add-new-note {
+  background-color: #28a745;
+  color: white;
+}
+
+.add-new-note:hover {
+  background-color: #008000;
+  color: white;
+}
+
+.asteriskField {
+  display: none;
+}
+
+.dropdown-menu {
+  z-index: 1030;
+}
+
+.drop-three {
+  right: 5px;
+  z-index: 1;
+}
+
+.landing {
+  margin-top: 10%;
+}
