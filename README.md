@@ -2,7 +2,7 @@
 
 ***A simple web based note taking application with markdown support***
 
-Note app is a server-side rendered app written with Python Django. It allow you to take notes
+Note app is a server-side rendered app written with Python Django. It allows you to take notes
 with markdown language support. You could preview markdown live while you are editing. You can save them,
 edit them, or delete them if you want.
 
